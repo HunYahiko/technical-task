@@ -1,0 +1,68 @@
+<div class="task-container mat-elevation-z8">
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="post-button-container">
+    <button mat-raised-button class="demo-button" (click)="openAddPostDialog()">
+      Add post
+    </button>
+  </div>
+  <div class="post-table-container">
+    <table mat-table matSort matSortActive="title" [dataSource]="posts" class="post-table" multiTemplateDataRows>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+        <td mat-cell *matCellDef="let element">{{element.title}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+        <td mat-cell *matCellDef="let element">{{element.description}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button aria-label="expand row" (click)="(expandedPost = expandedPost === element ? null : element); $event.stopPropagation()">
+            <mat-icon *ngIf="expandedPost !== element">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="expandedPost === element">keyboard_arrow_up</mat-icon>
+          </button>
+          <button mat-icon-button (click)='removePost(element.id)'>
+            <mat-icon aria-hidden="false"
+                      aria-label="Delete">
+              remove_circle
+            </mat-icon>
+          </button>
+          <button mat-icon-button (click)='editPost(element)'>
+            <mat-icon aria-hidden="false"
+                      aria-label="Edit">
+              edit
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns">
+          <div class="example-element-detail"
+               [@detailExpand]="element == expandedPost ? 'expanded' : 'collapsed'">
+            <div class="example-element-description">
+              {{element.content}}
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedPost === element"
+          (click)="expandedPost = expandedPost === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+    </table>
+  </div>
+  <mat-paginator [length]="resultsLength" [pageSize]="30" [pageSizeOptions]="[5, 10, 30, 100]" aria-label="Select page of posts"></mat-paginator>
+</div>

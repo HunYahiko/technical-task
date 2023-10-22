@@ -1,0 +1,76 @@
+<h1 mat-dialog-title>Add Post</h1>
+<div mat-dialog-content>
+  <form [formGroup]="postForm">
+    <div>
+      <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title"/>
+        <div *ngIf="postForm.get('title')?.invalid &&
+        postForm.get('title')?.errors &&
+        (postForm.get('title')?.dirty || postForm.get('title')?.touched)">
+          <small class="text-danger"
+                 *ngIf="postForm.get('title')?.hasError('required')">
+            This field is required.
+          </small>
+          <small class="text-danger"
+                 *ngIf="postForm.get('title')?.hasError('minlength')">
+            The minimum length for this field is 3 characters.
+          </small>
+          <small class="text-danger"
+                 *ngIf="postForm.get('title')?.hasError('maxlength')">
+            The maximum length for this field is 150 characters.
+          </small>
+        </div>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description">
+        <div *ngIf="postForm.get('description')?.invalid &&
+        postForm.get('description')?.errors &&
+        (postForm.get('description')?.dirty || postForm.get('description')?.touched)">
+          <small class="text-danger"
+                 *ngIf="postForm.get('description')?.hasError('required')">
+            This field is required.
+          </small>
+          <small class="text-danger"
+                 *ngIf="postForm.get('description')?.hasError('minlength')">
+            The minimum length for this field is 3 characters.
+          </small>
+          <small class="text-danger"
+                 *ngIf="postForm.get('description')?.hasError('maxlength')">
+            The maximum length for this field is 150 characters.
+          </small>
+        </div>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Content</mat-label>
+        <textarea matInput formControlName="content"></textarea>
+        <div *ngIf="postForm.get('content')?.invalid &&
+        postForm.get('content')?.errors &&
+        (postForm.get('content')?.dirty || postForm.get('content')?.touched)">
+          <small class="text-danger"
+                 *ngIf="postForm.get('content')?.hasError('required')">
+            This field is required.
+          </small>
+          <small class="text-danger"
+                 *ngIf="postForm.get('content')?.hasError('minlength')">
+            The minimum length for this field is 10 characters.
+          </small>
+          <small class="text-danger"
+                 *ngIf="postForm.get('content')?.hasError('maxlength')">
+            The maximum length for this field is 3000 characters.
+          </small>
+        </div>
+      </mat-form-field>
+    </div>
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancelClick()">Close</button>
+  <button mat-button [disabled]="postForm.invalid" (click)="addPost()">Save</button>
+</div>
